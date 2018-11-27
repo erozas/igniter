@@ -12,7 +12,6 @@ def add_gems
   gem 'shrine', '~> 2.13'
   gem 'sidekiq', '~> 5.2', '>= 5.2.3'
   gem 'validates_email_format_of', '~> 1.6', '>= 1.6.3'
-  gem 'webpacker', '~> 3.5', '>= 3.5.3'
 
   gem_group :development, :test do
     gem 'better_errors'
@@ -71,6 +70,8 @@ def add_facebook_and_google_omniauth
   puts "Adding provider and uid to users table migration"
   rails_command "generate migration add_omniauth_to_users provider:string uid:string"
   rails_command "db:migrate"
+  puts "Remember to add your omniauth client id and secret to devise.rb"
+  inject_into_file "app/models/user.rb"
 end
 
 def rename_app_css_to_app_scss
