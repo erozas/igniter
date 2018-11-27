@@ -43,10 +43,6 @@ def set_root_route
   route "root to: 'pages#home'"
 end
 
-def get_css_framework_of_choice(css_framework)
-  puts "Installing #{css_framework}"
-end
-
 def add_users
   generate "devise:install"
 
@@ -67,31 +63,14 @@ def add_webpack
   rails_command "webpacker:install"
 end
 
-def add_bootstrap
-end
+def add_facebook_and_google_omniauth
+  puts "Adding google and facebook omniauth Gems"
+  gem 'omniauth-facebook'
+  gem 'omniauth-google-oauth2'
 
-def add_bulma
-end
-
-def add_facebook_omniauth(facebook_id, facebook_secret)
-  devise_config = Dir.glob("config/initializers/devise.rb")
-  puts "Your facebook_app_id is #{facebook_id}"
-  puts "Your facebook_secret is #{facebook_secret}"
-end
-
-def add_google_omniauth(google_id, google_secret)
-  puts "Your google_client_id is #{google_id}"
-  puts "Your google_secret is #{google_secret}"
-end
-
-def add_tailwind
-  run "yarn --ignore-engines add tailwindcss"
-  run "mkdir app/javascript/stylesheets"
-  run "./node_modules/.bin/tailwind init app/javascript/stylesheets/tailwind.js"
-  append_to_file "app/javascript/packs/application.js", 'import "stylesheets/application"'
-  inject_into_file "./.postcssrc.yml", "\n  tailwindcss: './app/javascript/stylesheets/tailwind.js'", after: "postcss-cssnext: {}"
-  run "mkdir app/javascript/stylesheets/components"
-  run "rm -r app/javascript/css"
+  puts "Adding provider and uid to users table migration"
+  rails_command "generate migration add_omniauth_to_users provider:string uid:string"
+  rails_command "db:migrate"
 end
 
 def rename_app_css_to_app_scss
@@ -132,6 +111,43 @@ def stop_spring
   run "spring stop"
 end
 
+def add_css_framework
+  case get_css_framework.downcase
+  when "bootstrap", "boostrap", "bo", 1, "1"
+    add_bootstrap
+  when "bulma", "bullma", "bu", 2, "2"
+    add_bulma
+  when "tailwind", "t", "taiwind", 3, "3"
+    add_tailwind
+  end
+end
+
+def get_css_framework
+  ask("Which CSS framework do you wish to use (Bootstrap, Bulma, Tailwind)?")
+end
+
+def add_bootstrap
+  run "yarn --ignore-engines add bootstrap popper.js jquery"
+  run "mkdir app/javascript/stylesheets && touch app/javascript/stylesheets/application.scss"
+  append_to_file "app/javascript/packs/application.js", 'import "../stylesheets/application"'
+  append_to_file "app/javascript/stylesheets/application.scss", "\n @import '~bootstrap/dist/css/bootstrap';"
+  directory "config", force: true
+end
+
+def add_bulma
+  puts "Adding bulma"
+end
+  
+def add_tailwind
+  run "yarn --ignore-engines add tailwindcss"
+  run "mkdir app/javascript/stylesheets"
+  run "./node_modules/.bin/tailwind init app/javascript/stylesheets/tailwind.js"
+  append_to_file "app/javascript/packs/application.js", 'import "stylesheets/application"'
+  inject_into_file "./.postcssrc.yml", "\n  tailwindcss: './app/javascript/stylesheets/tailwind.js'", after: "postcss-cssnext: {}"
+  run "mkdir app/javascript/stylesheets/components"
+  run "rm -r app/javascript/css"
+end
+
 # Main setup
 source_paths
 
@@ -145,17 +161,14 @@ after_bundle do
   if yes?("Would you like to install devise?")
     add_users
     if yes?("Would you like to have Facebook and Google Omniauth in your application?")
-      facebook_app_id = ask("Enter your FACEBOOK_APP_ID")
-      facebook_secret = ask("Enter your FACEBOOK_SECRET")
-      google_client_id = ask("Enter your GOOGLE_CLIENT_ID")
-      google_client_secret = ask("Enter your GOOGLE_CLIENT_SECRET")
-      add_facebook_omniauth(facebook_app_id, facebook_secret)
-      add_google_omniauth(google_client_id, google_client_secret)
+      add_facebook_and_google_omniauth
     end
   end
   add_webpack
+  add_css_framework
   add_friendly_id
   rename_app_css_to_app_scss
+
   add_sidekiq
   add_foreman
 

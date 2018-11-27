@@ -1,4 +1,4 @@
-# About Igniter
+## Igniter
 Igniter is a Rails application template, based on the Kickoff template by Andy Leverenz. It's however, more opinionated and includes the following:
 
 * Almost everything that is present in the Kickoff template: devise auth, friendly_id, sidekiq, foreman and webpacker.
@@ -7,3 +7,17 @@ Igniter is a Rails application template, based on the Kickoff template by Andy L
 * File upload gems and configuration using the Shrine gem in combination with the s3-sdk and fast_image and image_processing.
 * Testing with RSpec out of the box, including some very basic user tests.
 * More features coming…
+
+## UI and styling
+
+Igniter comes prepacked with some views and partials already defined. Especifically, Igniter comes with the following views:
+
+- Home
+- About Us
+- Frequently Asked Questions
+- Privacy Policy
+- Terms & Conditions
+
+It also comes with some basic navigation already defined
+
+## Authentication with devise

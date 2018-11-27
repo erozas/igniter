@@ -1,0 +1,115 @@
+/*
+==============  Named colors  =================*/
+
+$licorice: #17161A; // Almost black
+$jet: #333137;
+$arsenic: #454349;
+$dim-gray: #6A696D;
+$stoopid-gray: #747679;
+$taupe-gray: #8F8E91;
+$lavender-gray: #aaa;
+$isabelline: #ECEFF1;
+$snow: #FBFBFB;
+$orange: #FD6E19;
+$yellow-orange: #FFC23A;
+$pink: #FF95C5;
+
+
+/*
+==============  Gray scale  =================*/
+
+$black:         $licorice;
+$darkest-gray:  $jet;
+$darker-gray:   $arsenic;
+$dark-gray:     $stoopid-gray;
+$medium-gray:   $taupe-gray;
+$gray:          $lavender-gray;
+$light-gray:    #AFB9C1;
+$lighter-gray:  #dcddde;
+$lightest-gray: $isabelline;
+$almost-white:  $snow;
+$white:         #FFF;
+
+/*
+==============  Brand colors  =================*/
+
+$primary: #0072FF;
+$accent: #fdff39;
+
+$red: #FF655F;
+$green: #1DC59B;
+$purple: #7d2cff;
+$yellow: #FFE659;
+$blue: #2176FF;
+
+
+/*
+==============  UI Colors  =================*/
+
+$primary-color: $primary;
+
+$danger: #FE4A49;
+$success: $green	;
+$warning: #FFB920;
+
+/*
+==============  Bootstrap overrides  =================*/
+
+$brand-success: $success;
+
+/*
+==============  Utilities  =================*/
+
+.is-black{
+  color: $black !important;
+}
+
+.is-darker-gray{
+  color: $darker-gray !important;
+}
+
+.is-dark-gray{
+  color: $dark-gray !important;
+}
+
+.is-light-gray{
+  color: $light-gray !important;
+}
+
+.is-lightest-gray{
+  color: $lightest-gray !important;
+}
+
+.is-gray{
+  color: $gray !important;
+}
+
+.is-red{
+  color: $red !important;
+}
+
+.is-orange{
+  color: $orange !important;
+}
+
+.is-green{
+  color: $green !important;
+}
+
+.is-dark-green{
+  color: darken($green, 5%);
+}
+
+.is-burgundy{
+  color: #c92534;
+}
+
+.border-lighter-gray{
+  border: 1px solid $lighter-gray;
+}
+
+
+
+.lightest-gray-bg{
+  background-color: $lightest-gray;
+}
