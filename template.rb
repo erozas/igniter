@@ -80,6 +80,10 @@ def set_root_route
   route "root to: 'pages#home'"
 end
 
+def set_available_locale
+  environment "config.i18n.default_locale = :es"
+end
+
 def install_rspec
   rails_command "generate rspec:install"
 end
@@ -116,10 +120,22 @@ def add_users
   inject_into_file("app/models/user.rb", "omniauthable, :masqueradable, :", after: "devise :")
 end
 
-def add_facebook_and_google_omniauth
-  puts "Adding provider and uid to users table migration"
-  rails_command "generate migration add_omniauth_to_users provider:string uid:string"
-  puts "Remember to add your omniauth client id and secret to devise.rb"
+def add_multiple_authentication
+    insert_into_file "config/routes.rb",
+    ', controllers: { omniauth_callbacks: "users/omniauth_callbacks" }',
+    after: "  devise_for :users"
+
+    generate "model Service user:references provider uid access_token access_token_secret refresh_token expires_at:datetime auth:text"
+
+    template = """
+    config.omniauth :facebook, nil, nil, scope: 'email,user_posts'
+
+    config.omniauth :google_oauth2, nil, nil
+    """.strip
+
+    insert_into_file "config/initializers/devise.rb", "  " + template + "\n\n",
+          before: "  # ==> Warden configuration"
+    puts "Don't forget to add your omniauth client app credentials in config/initializers/devise.rb"
 end
 
 def add_webpack
@@ -127,14 +143,7 @@ def add_webpack
 end
 
 def add_css_framework
-  case get_css_framework.downcase
-  when "bootstrap", "boostrap", "bo", 1, "1"
-    add_bootstrap
-  when "bulma", "bullma", "bu", 2, "2"
-    add_bulma
-  when "tailwind", "t", "taiwind", 3, "3"
-    add_tailwind
-  end
+  add_bootstrap
 end
 
 def add_friendly_id
@@ -201,10 +210,10 @@ def add_app_helpers_to_administrate
 end
 
 def add_static_pages
-  route "get '/terminos-y-condiciones', to: pages#terms"
-  route "get '/politica-de-privacidad', to: pages#privacy"
-  route "get '/sobre-nosotros', to: pages#about_us"
-  route "get '/terminos-y-condiciones', to: pages#terms"
+  route "get '/terminos-y-condiciones', to: 'pages#terms'"
+  route "get '/politica-de-privacidad', to: 'pages#privacy'"
+  route "get '/sobre-nosotros', to: 'pages#about_us'"
+  route "get '/preguntas-frecuentes', to: 'pages#faq'"
 end
 
 def add_whenever
@@ -225,16 +234,13 @@ after_bundle do
   set_application_name
   stop_spring
   set_root_route
+  set_available_locale
   install_rspec
 
-  if yes?("Would you like to install devise?")
-    add_users
-    if yes?("Would you like to have Facebook and Google Omniauth in your application?")
-      add_facebook_and_google_omniauth
-    end
-  end
+  add_users
 
   add_webpack
+  add_multiple_authentication
   add_css_framework
   add_friendly_id
   rename_app_css_to_app_scss
@@ -259,9 +265,6 @@ after_bundle do
   git commit: %Q{ -m "Initial commit" }
 end
 
-def get_css_framework
-  ask("Which CSS framework do you wish to use (Bootstrap, Bulma, Tailwind)?")
-end
 
 def add_bootstrap
   run "yarn --ignore-engines add bootstrap popper.js jquery"
@@ -269,18 +272,4 @@ def add_bootstrap
   append_to_file "app/javascript/packs/application.js", 'import "../stylesheets/application"'
   append_to_file "app/javascript/stylesheets/application.scss", "\n @import '~bootstrap/dist/css/bootstrap';"
   directory "config", force: true
-end
-
-def add_bulma
-  puts "Adding bulma"
-end
-  
-def add_tailwind
-  run "yarn --ignore-engines add tailwindcss"
-  run "mkdir app/javascript/stylesheets"
-  run "./node_modules/.bin/tailwind init app/javascript/stylesheets/tailwind.js"
-  append_to_file "app/javascript/packs/application.js", 'import "stylesheets/application"'
-  inject_into_file "./.postcssrc.yml", "\n  tailwindcss: './app/javascript/stylesheets/tailwind.js'", after: "postcss-cssnext: {}"
-  run "mkdir app/javascript/stylesheets/components"
-  run "rm -r app/javascript/css"
 end

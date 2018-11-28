@@ -1,15 +1,8 @@
 class User < ApplicationRecord
-	validates :email, presence: true, uniqueness: { case_sensitive: false }
-	validates_email_format_of :email, message: "no tiene un formato válido"
-	validates :username, presence: true, uniqueness: { case_sensitive: false }
-	
-	scope :admin, -> { where(admin: true) }
-
-	extend FriendlyId
-	friendly_id :username, use: [:slugged, :finders]
-
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :masqueradable, :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :omniauthable
+  has_many :services
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -24,8 +17,24 @@ class User < ApplicationRecord
     end
   end
 
+  def omniauth_by?(provider)
+    provider == provider
+  end
+
+  def login=(login)
+    @login = login
+  end
+
+  def login
+    @login || username || email
+  end
+
+  def remember_me
+    (super == nil) ? '1' : super
+  end
+  
   protected
   def self.find_record login
-  	where(["username = :value OR email = :value", {value: login}]).first
+    where(["username = :value OR email = :value", {value: login}]).first
   end
 end

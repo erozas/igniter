@@ -2,20 +2,25 @@
 <html>
   <head>
     <title><%= Rails.configuration.application_name %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
 
     <%= stylesheet_pack_tag  'application', media: 'all' %>
     <%= javascript_pack_tag  'application' %>
-
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/light.css" integrity="sha384-33RmjeesW9BZ4wR2Gm3n4iBXOvGTto4znqL2kZleiRanWDxM59IHIq5RsbRioqxb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/fontawesome.css" integrity="sha384-srL3Qh9R/n855m4o5fegS//B2q0R1md7z6ndDYaPj8iEp0j0IuKdFVWMY0JosKPF" crossorigin="anonymous">
   </head>
 
   <body>
+    <%= render "shared/navbar" %>
+    <%= render "shared/messages" %>
     <%= yield %>
+    <%= render "shared/footer" %>
   </body>
 </html>
