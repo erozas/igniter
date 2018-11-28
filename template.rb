@@ -98,6 +98,9 @@ def add_users
     gsub_file migration, /:admin/, ":admin, default: false"
   end
 
+  requirement = Gem::Requirement.new("> 5.2")
+  rails_version = Gem::Version.new(Rails::VERSION::STRING)
+
   if requirement.satisfied_by? rails_version
     gsub_file "config/initializers/devise.rb",
       /  # config.secret_key = .+/,
@@ -149,6 +152,10 @@ def add_sidekiq
   insert_into_file "config/routes.rb",
     "require 'sidekiq/web'\n\n",
     before: "Rails.application.routes.draw do"
+
+  insert_into_file "config/routes.rb",
+    "  authenticate :user, lambda { |u| u.admin? } do\n    mount Sidekiq::Web => '/sidekiq'\n  end\n\n",
+    after: "Rails.application.routes.draw do\n"
 end
 
 def add_foreman
