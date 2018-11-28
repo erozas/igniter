@@ -247,7 +247,6 @@ after_bundle do
 end
 
 
-private
 def get_css_framework
   ask("Which CSS framework do you wish to use (Bootstrap, Bulma, Tailwind)?")
 end
