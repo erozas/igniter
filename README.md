@@ -1,5 +1,5 @@
 ## Igniter
-Igniter is a Rails application template, based on the Kickoff template by Andy Leverenz. It's however, more opinionated and includes the following:
+Igniter is a Rails application template, heavily inspired on the Jumpstart template by @excid3.
 
 * Almost everything that is present in the Kickoff template: devise auth, friendly_id, sidekiq, foreman and webpacker.
 * Devise omniauth login.
