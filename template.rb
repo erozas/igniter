@@ -67,11 +67,12 @@ def add_facebook_and_google_omniauth
   gem 'omniauth-facebook'
   gem 'omniauth-google-oauth2'
 
+  run "bundle install"
+
   puts "Adding provider and uid to users table migration"
   rails_command "generate migration add_omniauth_to_users provider:string uid:string"
   rails_command "db:migrate"
   puts "Remember to add your omniauth client id and secret to devise.rb"
-  inject_into_file "app/models/user.rb"
 end
 
 def rename_app_css_to_app_scss
@@ -147,6 +148,9 @@ def add_tailwind
   inject_into_file "./.postcssrc.yml", "\n  tailwindcss: './app/javascript/stylesheets/tailwind.js'", after: "postcss-cssnext: {}"
   run "mkdir app/javascript/stylesheets/components"
   run "rm -r app/javascript/css"
+end
+
+def config_file_uploads
 end
 
 # Main setup
