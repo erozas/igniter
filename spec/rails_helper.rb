@@ -2,8 +2,6 @@
 require 'spec_helper'
 require 'capybara'
 require 'capybara/poltergeist'
-require 'support/database_cleaner'
-require 'support/factory_bot'
 require 'support/controller_helpers'
 require 'shoulda-matchers'
 

@@ -95,6 +95,7 @@ def add_users
            "username",
            "first_name",
            "last_name",
+           "slug",
            "admin:boolean"
 
   # Set admin default to false
