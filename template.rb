@@ -264,7 +264,8 @@ end
 def add_bootstrap
   run "yarn --ignore-engines add bootstrap popper.js jquery"
   run "mkdir app/javascript/stylesheets && touch app/javascript/stylesheets/application.scss"
-  append_to_file "app/javascript/packs/application.js", 'import "../stylesheets/application"'
+  append_to_file "app/javascript/packs/application.js", 'import "../stylesheets/application";'
+  append_to_file "app/javascript/packs/application.js", 'import "bootstrap";'
   append_to_file "app/javascript/stylesheets/application.scss", "\n @import '~bootstrap/dist/css/bootstrap';"
   directory "config", force: true
 end
