@@ -1,0 +1,45 @@
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-sm-6 offset-sm-3">
+      <h2>¿Quieres decirnos algo?</h2>
+      <p>Usa el formulario de contacto para </p>
+
+    <%= form_for @contact_form, url: contact_us_path, method: :post, class: 'contacts__new' do |f| %>
+      <% if @contact_form.errors.any? %>
+        <ul class="alert alert-danger">
+          <% @contact_form.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      <% end %>
+      <div class="form-group">
+        <%= f.label :full_name, "Tu nombre", class: 'label' %>
+        
+        <% if user_signed_in? %>
+          <%= f.text_field :full_name, class: "form-control", value: current_user.full_name, placeholder: "Tu nombre completo" %>
+        <% else %>
+          <%= f.text_field :full_name, class: "form-control", placeholder: "Tu nombre completo" %>
+        <% end %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :email, "Tu correo electrónico", class: 'label' %>
+        <% if user_signed_in? %>
+          <%= f.text_field :email, class: "form-control", value: current_user.email, placeholder: "ejemplo@gmail.com" %>
+        <% else %>
+          <%= f.text_field :email, class: "form-control", placeholder: "ejemplo@gmail.com" %>
+        <% end %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :message, "Tu mensaje", class: 'label' %>
+        <%= f.text_area :message, class: "form-control gray-input", placeholder: "Tu mensaje" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.button "Enviar", class: "btn btn-primary mt-2" %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+</div>

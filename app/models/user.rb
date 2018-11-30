@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :services
 
   validates :username, presence: true, uniqueness: true
+  validates_email_format_of :email, message: "no tiene un formato válido"
 
   extend FriendlyId
   friendly_id :username, use: :slugged
@@ -19,6 +20,18 @@ class User < ApplicationRecord
       else
         where(username: conditions[:username]).first
       end
+    end
+  end
+
+  def full_name
+    if first_name.present? && last_name.present?
+      first_name + last_name
+    elsif first_name.present?
+      first_name
+    elsif last_name.present? 
+      last_name
+    else
+      "Usuario invitado"
     end
   end
 

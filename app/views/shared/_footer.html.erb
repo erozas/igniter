@@ -1,45 +1,18 @@
-	<section id="footer">
-		<div class="container">
-			<div class="row text-center text-xs-center text-sm-left text-md-left">
-				<div class="col-xs-12 col-sm-4 col-md-4">
-					<h5>Quick links</h5>
-					<ul>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>Home</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>About</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>FAQ</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>Get Started</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>Videos</a></li>
-					</ul>
-				</div>
-				<div class="col-xs-12 col-sm-4 col-md-4">
-					<h5>Quick links</h5>
-					<ul class="list-unstyled quick-links">
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>Home</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>About</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>FAQ</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>Get Started</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>Videos</a></li>
-					</ul>
-				</div>
-				<div class="col-xs-12 col-sm-4 col-md-4">
-					<h5>Quick links</h5>
-					<ul class="list-unstyled quick-links">
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>Home</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>About</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>FAQ</a></li>
-						<li><a href="#"><i class="fal fa-angle-double-right"></i>Get Started</a></li>
-					</ul>
-				</div>
+<footer class="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<%= link_to Rails.application.class.parent.to_s, root_path, class: "footer__brand" %>
+        <p>We are an award-winning creative agency, dedicated to the best result in web design, promotion, business consulting, and marketing.</p>
 			</div>
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
-					<ul class="list-unstyled list-inline social text-center">
-						<li class="list-inline-item"><a href="javascript:void();"><i class="fal fa-facebook"></i></a></li>
-						<li class="list-inline-item"><a href="javascript:void();"><i class="fal fa-twitter"></i></a></li>
-						<li class="list-inline-item"><a href="javascript:void();"><i class="fal fa-instagram"></i></a></li>
-					</ul>
-				</div>
-				</hr>
-			</div>	
+			<div class="col-md-4">
+				<ul class="footer__link-list">
+					<li><%= link_to "Sobre nosotros", about_us_path, class: "footer__link" %></li>
+					<li><%= link_to "Preguntas frecuentes", faq_path, class: "footer__link" %></li>
+					<li><%= link_to "Contacto", contact_us_path, class: "footer__link" %></li>
+					<li><%= link_to "Política de privacidad", privacy_path, class: "footer__link" %></li>
+				</ul>
+			</div>
 		</div>
-	</section>
+	</div>
+</footer>

@@ -212,10 +212,13 @@ def add_app_helpers_to_administrate
 end
 
 def add_static_pages
-  route "get '/terminos-y-condiciones', to: 'pages#terms'"
-  route "get '/politica-de-privacidad', to: 'pages#privacy'"
-  route "get '/sobre-nosotros', to: 'pages#about_us'"
-  route "get '/preguntas-frecuentes', to: 'pages#faq'"
+  route "get '/terminos-y-condiciones', to: 'pages#terms', as: :terms"
+  route "get '/politica-de-privacidad', to: 'pages#privacy', as: :privacy"
+  route "get '/sobre-nosotros', to: 'pages#about_us', as: :about_us"
+  route "get '/preguntas-frecuentes', to: 'pages#faq', as: :faq"
+  route "get '/contacto', to: 'contacts#new', as: :contact_us"
+  route "post '/contacto', to: 'contacts#create'"
+  route "get '/gracias-por-tu-contacto', to: 'contacts#thank_you, as: :contact_thank_you"
 end
 
 def add_whenever
