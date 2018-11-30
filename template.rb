@@ -113,6 +113,10 @@ def add_users
       "  config.secret_key = Rails.application.credentials.secret_key_base"
   end
 
+  gsub_file "config/initializers/devise.rb", 
+    /  # config.authentication_keys = .+/,
+    "  config.authentication_keys = [:login]"
+
   # Add Devise masqueradable to users
   inject_into_file("app/models/user.rb", "omniauthable, :masqueradable, :", after: "devise :")
 end
@@ -171,6 +175,7 @@ end
 
 def add_foreman
   copy_file "Procfile"
+  copy_file "Procfile.dev"
 end
 
 def copy_templates
