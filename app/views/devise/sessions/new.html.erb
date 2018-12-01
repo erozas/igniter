@@ -4,6 +4,9 @@
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <%= devise_error_messages! %>
+
+      <%= render "devise/shared/omniauth_links" %>
+      
       <div class="form-group">
         <%= f.label :login, class: "label" %><br />
         <%= f.text_field :login, autofocus: true, autocomplete: "email", class: "form-control" %>
